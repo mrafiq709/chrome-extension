@@ -1,0 +1,33 @@
+{
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "Make this page red"
+  },
+  "content_scripts": [
+    {
+      "run_at": "document_idle",
+      "all_frames": true,
+      "js": ["content.js"],
+      "matches": ["*://*.google.com/*", "*://*.wikipedia.org/*"]
+    }
+  ],
+  "description": "Utilities to help find customers online",
+  "manifest_version": 2,
+  "name": "Search in Google",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "storage",
+    "http://localhost/*",
+    "*://*.google.com/*",
+    "*://*.wikipedia.org/*",
+    "notifications",
+    "webNavigation",
+    "activeTab"
+  ],
+  "version": "4.3",
+  "omnibox": { "keyword": "rr" }
+}
