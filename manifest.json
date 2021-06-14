@@ -1,0 +1,37 @@
+{
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_title": "Test",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["jquery.min.js", "content.js"],
+      "css": ["content.css"],
+      "matches": ["*://*.facebook.com/*"]
+    }
+  ],
+  "description": "Utilities to help find customers online",
+  "manifest_version": 2,
+  "name": "Facebook Number",
+  "content_security_policy": "script-src 'self' https://connect.facebook.net/en_US/sdk.js https://default.test/ 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "storage",
+    "http://localhost/*",
+    "*://*.facebook.com/*",
+    "*://*.default.test/*",
+    "notifications",
+    "webNavigation",
+    "activeTab",
+    "*://connect.facebook.net/*"
+  ],
+  "version": "1.0",
+  "omnibox": { "keyword": "rr" },
+  "web_accessible_resources": ["images/*", "content.css"]
+}

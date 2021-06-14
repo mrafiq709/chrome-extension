@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Facebook Login JavaScript Example</title>
+    <meta charset="UTF-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <script>
+      function statusChangeCallback(response) {
+        // Called with the results from FB.getLoginStatus().
+        console.log("statusChangeCallback");
+        console.log(response); // The current login status of the person.
+        if (response.status === "connected") {
+          // Logged into your webpage and Facebook.
+          // testAPI();
+          let userId = response.authResponse.userID;
+          // console.log(userId);
+          // console.log("login");
+          // getUserInfo(userId);
+
+          // Consumer App get information with bellow code
+          FB.login(
+            function (response) {
+              if (response.status === "connected") {
+                console.log(response);
+                FB.api(
+                  "/" + userId + "/?fields=id,email,name",
+                  // "/" + userId + "/?fields=id,email,name",
+                  function (data) {
+                    console.log(data); // it will not be null ;)
+                  }
+                );
+              }
+            },
+            { scope: "email" }
+          );
+        } else {
+          // Not logged into your webpage or we are unable to tell.
+          document.getElementById("status").innerHTML =
+            "Please log " + "into this webpage.";
+        }
+      }
+
+      function checkLoginState() {
+        // Called when a person is finished with the Login Button.
+        FB.getLoginStatus(function (response) {
+          // See the onlogin handler
+          statusChangeCallback(response);
+        });
+      }
+
+      window.fbAsyncInit = function () {
+        FB.init({
+          appId: "1090570695103376",
+          cookie: true, // Enable cookies to allow the server to access the session.
+          xfbml: true, // Parse social plugins on this webpage.
+          version: "v3.2", // Use this Graph API version for this call.
+        });
+
+        // Business App get user information with bellow code
+        FB.getLoginStatus(function (response) {
+          statusChangeCallback(response); // Returns the login status.
+          // Called after the JS SDK has been initialized.
+        });
+      };
+
+      // function getUserInfo(userId) {
+      //   // body...
+      //   FB.api(
+      //     "/" + userId + "/?fields=id,name,email",
+      //     "GET",
+      //     {},
+      //     function (response) {
+      //       // Insert your code here
+      //       console.log(response);
+      //       let email = response.email;
+      //       // loginViaEmail(email);
+      //     }
+      //   );
+      // }
+
+      function testAPI() {
+        // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+        console.log("Welcome!  Fetching your information.... ");
+        // FB.api(
+        //   "/me",
+        //   "GET",
+        //   { fields: "first_name,last_name,name,id,email" },
+        //   function (response) {
+        //     console.log(response);
+        //   }
+        // );
+        // FB.api("/me?fields=name,email", function (response) {
+        //   console.log(response);
+        // });
+      }
+
+      $(document).ready(function () {
+        $.get("https://default.test/mina.txt", function (contents) {
+          //check if file contains the word Hello
+          var hasString = contents.includes("+88");
+          if (hasString) {
+            var indx = contents.indexOf("+88");
+            //get the phone number
+            var res = contents.substr(indx, 16);
+            console.log("Phone Number: " + res);
+          } else {
+            console.log("Phone number is not public");
+          }
+        });
+      });
+    </script>
+
+    <!-- The JS SDK Login Button -->
+
+    <fb:login-button onlogin="checkLoginState();"> </fb:login-button>
+
+    <div id="status"></div>
+
+    <!-- Load the JS SDK asynchronously -->
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js"
+    ></script>
+  </body>
+</html>
